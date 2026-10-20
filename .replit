@@ -1,0 +1,13 @@
+modules = ["nodejs-20"]
+run = "npm start"
+
+[deployment]
+# Reserved VM keeps the process (and its in-memory dedupe) always on.
+# Use "cloudrun" for Autoscale instead.
+deploymentTarget = "gce"
+build = ["npm", "ci"]
+run = ["npm", "start"]
+
+[[ports]]
+localPort = 3000
+externalPort = 80

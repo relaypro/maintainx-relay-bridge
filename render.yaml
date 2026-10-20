@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: maintainx-relay-bridge
+    runtime: node
+    plan: starter
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: RELAY_API_KEY
+        sync: false
+      - key: RELAY_SUBSCRIBER_ID
+        sync: false
+      - key: MAINTAINX_WEBHOOK_SECRET
+        sync: false
+      - key: RELAY_ROUTES
+        sync: false
+      - key: MAINTAINX_API_KEY
+        sync: false
+      - key: DRY_RUN
+        value: "true"

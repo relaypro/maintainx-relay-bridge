@@ -1,0 +1,7 @@
+{
+  "name": "maintainx-relay-bridge",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "postCreateCommand": "npm ci && cp -n .env.example .env",
+  "forwardPorts": [3000],
+  "portsAttributes": { "3000": { "label": "bridge" } }
+}

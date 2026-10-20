@@ -1,0 +1,17 @@
+{
+  "name": "MaintainX to Relay bridge",
+  "description": "Turns MaintainX work order webhooks into spoken Relay alerts and broadcasts.",
+  "repository": "https://github.com/relaypro/maintainx-relay-bridge",
+  "keywords": ["relay", "maintainx", "webhooks"],
+  "env": {
+    "RELAY_API_KEY": { "description": "Relay Dash > Help > API Keys" },
+    "RELAY_SUBSCRIBER_ID": { "description": "Relay Dash > Help > Diagnostic Logs > Server Details > Subscriber" },
+    "MAINTAINX_WEBHOOK_SECRET": { "description": "MaintainX > Settings > Integrations > Webhooks > Copy secret" },
+    "RELAY_ROUTES": {
+      "description": "JSON: route name -> { mode, groups, ...alert options }",
+      "value": "{\"urgent\":{\"mode\":\"alert\",\"groups\":[\"maintenance\"],\"timeout\":300,\"quorum\":1},\"notice\":{\"mode\":\"broadcast\",\"groups\":[\"maintenance\"]}}"
+    },
+    "MAINTAINX_API_KEY": { "description": "Optional. Adds titles and locations to spoken alerts.", "required": false },
+    "DRY_RUN": { "description": "true logs Relay requests instead of sending them", "value": "true" }
+  }
+}

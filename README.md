@@ -48,7 +48,7 @@ Your webhook URL is `https://<your-host>/webhooks/maintainx`. Register it in Mai
 {
   "urgent": {
     "mode": "alert",
-    "groups": ["maintenance", "shift-leads"],
+    "groups": ["maintenance", "supervisors"],
     "timeout": 300,
     "quorum": 1,
     "on_quorum": "Someone else has this work order."
@@ -58,7 +58,7 @@ Your webhook URL is `https://<your-host>/webhooks/maintainx`. Register it in Mai
 ```
 
 * `mode`: `alert` repeats every 30 s until acknowledged. `broadcast` plays once.
-* `groups`: one or more Relay Workflow Groups. Names must match exactly.
+* `groups`: one or more Relay Workflow Groups. Names must match exactly, and Workflow Group names can't contain hyphens.
 * Alert routes may also set `timeout`, `quorum`, `on_ack`, `on_quorum`, and `on_timeout`. See [Customizing Your Alerts](https://developer.relaypro.com/docs/relay-alerts-api/customizing-your-alerts).
 
 The bridge won't start if a route has no groups or an unknown mode.

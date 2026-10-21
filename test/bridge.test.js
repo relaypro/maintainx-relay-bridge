@@ -4,7 +4,7 @@ import { buildRelayRequest, createApp, parseRoutes, sign, verifySignature } from
 
 const SECRET = "test-secret";
 const ROUTES = JSON.stringify({
-  urgent: { mode: "alert", groups: ["maintenance", "shift-leads"], quorum: 1, on_quorum: "Taken." },
+  urgent: { mode: "alert", groups: ["maintenance", "supervisors"], quorum: 1, on_quorum: "Taken." },
   notice: { mode: "broadcast", groups: ["maintenance"] },
 });
 
@@ -33,7 +33,7 @@ test("parseRoutes rejects routes without groups or with an unknown mode", () => 
 test("alert routes fan out to every group and pass alert options through", () => {
   const { url, body } = buildRelayRequest(parseRoutes(ROUTES), "urgent", "Hello.", "sub-1");
   assert.equal(url, "https://api.relaypro.com/subscribers/sub-1/api/v1/alerts");
-  assert.deepEqual(body.groups, ["maintenance", "shift-leads"]);
+  assert.deepEqual(body.groups, ["maintenance", "supervisors"]);
   assert.equal(body.quorum, 1);
   assert.equal(body.on_quorum, "Taken.");
   assert.equal(body.name, "maintainx-urgent");
@@ -87,7 +87,7 @@ test("high priority work order alerts every group on the urgent route", async ()
     assert.deepEqual(res.json, { status: "sent", route: "urgent" });
     assert.equal(calls.length, 1);
     assert.ok(calls[0].url.endsWith("/alerts"));
-    assert.deepEqual(calls[0].body.groups, ["maintenance", "shift-leads"]);
+    assert.deepEqual(calls[0].body.groups, ["maintenance", "supervisors"]);
     assert.match(calls[0].body.notification, /high priority work order: Compressor 3/);
   });
 });
@@ -95,7 +95,7 @@ test("high priority work order alerts every group on the urgent route", async ()
 test("MaintainX team assignment does not change the audience", async () => {
   await withServer(async (post, calls) => {
     await post(newWorkOrder("HIGH", { teamIds: [12], locationId: null, categories: [{ id: 1, name: "HVAC" }] }));
-    assert.deepEqual(calls[0].body.groups, ["maintenance", "shift-leads"]);
+    assert.deepEqual(calls[0].body.groups, ["maintenance", "supervisors"]);
   });
 });
 
